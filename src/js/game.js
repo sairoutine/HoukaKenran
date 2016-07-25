@@ -22,7 +22,7 @@ var Game = function(canvas) {
 	this.frame_count = 0;
 };
 Game.prototype.IMAGES = {
-	boss:      'img/enemy.png',
+	boss:      'img/boss.jpg',
 	bullet:    'img/bullet.png',
 };
 Game.prototype.init = function() {

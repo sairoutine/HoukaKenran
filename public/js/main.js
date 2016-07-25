@@ -1,179 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/**
- * @author mrdoob / http://mrdoob.com/
- */
-
-var Stats = function () {
-
-	var mode = 0;
-
-	var container = document.createElement( 'div' );
-	container.style.cssText = 'position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000';
-	container.addEventListener( 'click', function ( event ) {
-
-		event.preventDefault();
-		showPanel( ++ mode % container.children.length );
-
-	}, false );
-
-	//
-
-	function addPanel( panel ) {
-
-		container.appendChild( panel.dom );
-		return panel;
-
-	}
-
-	function showPanel( id ) {
-
-		for ( var i = 0; i < container.children.length; i ++ ) {
-
-			container.children[ i ].style.display = i === id ? 'block' : 'none';
-
-		}
-
-		mode = id;
-
-	}
-
-	//
-
-	var beginTime = ( self.performance || Date ).now(), prevTime = beginTime, frames = 0;
-
-	var fpsPanel = addPanel( new Stats.Panel( 'FPS', '#0ff', '#002' ) );
-	var msPanel = addPanel( new Stats.Panel( 'MS', '#0f0', '#020' ) );
-
-	if ( self.performance && self.performance.memory ) {
-
-		var memPanel = addPanel( new Stats.Panel( 'MB', '#f08', '#201' ) );
-
-	}
-
-	showPanel( 0 );
-
-	return {
-
-		REVISION: 16,
-
-		dom: container,
-
-		addPanel: addPanel,
-		showPanel: showPanel,
-
-		begin: function () {
-
-			beginTime = ( self.performance || Date ).now();
-
-		},
-
-		end: function () {
-
-			frames ++;
-
-			var time = ( self.performance || Date ).now();
-
-			msPanel.update( time - beginTime, 200 );
-
-			if ( time > prevTime + 1000 ) {
-
-				fpsPanel.update( ( frames * 1000 ) / ( time - prevTime ), 100 );
-
-				prevTime = time;
-				frames = 0;
-
-				if ( memPanel ) {
-
-					var memory = self.performance.memory;
-					memPanel.update( memory.usedJSHeapSize / 1048576, memory.jsHeapSizeLimit / 1048576 );
-
-				}
-
-			}
-
-			return time;
-
-		},
-
-		update: function () {
-
-			beginTime = this.end();
-
-		},
-
-		// Backwards Compatibility
-
-		domElement: container,
-		setMode: showPanel
-
-	};
-
-};
-
-Stats.Panel = function ( name, fg, bg ) {
-
-	var min = Infinity, max = 0, round = Math.round;
-	var PR = round( window.devicePixelRatio || 1 );
-
-	var WIDTH = 80 * PR, HEIGHT = 48 * PR,
-			TEXT_X = 3 * PR, TEXT_Y = 2 * PR,
-			GRAPH_X = 3 * PR, GRAPH_Y = 15 * PR,
-			GRAPH_WIDTH = 74 * PR, GRAPH_HEIGHT = 30 * PR;
-
-	var canvas = document.createElement( 'canvas' );
-	canvas.width = WIDTH;
-	canvas.height = HEIGHT;
-	canvas.style.cssText = 'width:80px;height:48px';
-
-	var context = canvas.getContext( '2d' );
-	context.font = 'bold ' + ( 9 * PR ) + 'px Helvetica,Arial,sans-serif';
-	context.textBaseline = 'top';
-
-	context.fillStyle = bg;
-	context.fillRect( 0, 0, WIDTH, HEIGHT );
-
-	context.fillStyle = fg;
-	context.fillText( name, TEXT_X, TEXT_Y );
-	context.fillRect( GRAPH_X, GRAPH_Y, GRAPH_WIDTH, GRAPH_HEIGHT );
-
-	context.fillStyle = bg;
-	context.globalAlpha = 0.9;
-	context.fillRect( GRAPH_X, GRAPH_Y, GRAPH_WIDTH, GRAPH_HEIGHT );
-
-	return {
-
-		dom: canvas,
-
-		update: function ( value, maxValue ) {
-
-			min = Math.min( min, value );
-			max = Math.max( max, value );
-
-			context.fillStyle = bg;
-			context.globalAlpha = 1;
-			context.fillRect( 0, 0, WIDTH, GRAPH_Y );
-			context.fillStyle = fg;
-			context.fillText( round( value ) + ' ' + name + ' (' + round( min ) + '-' + round( max ) + ')', TEXT_X, TEXT_Y );
-
-			context.drawImage( canvas, GRAPH_X + PR, GRAPH_Y, GRAPH_WIDTH - PR, GRAPH_HEIGHT, GRAPH_X, GRAPH_Y, GRAPH_WIDTH - PR, GRAPH_HEIGHT );
-
-			context.fillRect( GRAPH_X + GRAPH_WIDTH - PR, GRAPH_Y, PR, GRAPH_HEIGHT );
-
-			context.fillStyle = bg;
-			context.globalAlpha = 0.9;
-			context.fillRect( GRAPH_X + GRAPH_WIDTH - PR, GRAPH_Y, PR, round( ( 1 - ( value / maxValue ) ) * GRAPH_HEIGHT ) );
-
-		}
-
-	};
-
-};
-
-if ( typeof module === 'object' ) {
-
-	module.exports = Stats;
-
-}
+// stats.js - http://github.com/mrdoob/stats.js
+var Stats=function(){function h(a){c.appendChild(a.dom);return a}function k(a){for(var d=0;d<c.children.length;d++)c.children[d].style.display=d===a?"block":"none";l=a}var l=0,c=document.createElement("div");c.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000";c.addEventListener("click",function(a){a.preventDefault();k(++l%c.children.length)},!1);var g=(self.performance||Date).now(),e=g,a=0,r=h(new Stats.Panel("FPS","#0ff","#002")),f=h(new Stats.Panel("MS","#0f0","#020"));
+if(self.performance&&self.performance.memory)var t=h(new Stats.Panel("MB","#f08","#201"));k(0);return{REVISION:16,dom:c,addPanel:h,showPanel:k,begin:function(){g=(self.performance||Date).now()},end:function(){a++;var c=(self.performance||Date).now();f.update(c-g,200);if(c>e+1E3&&(r.update(1E3*a/(c-e),100),e=c,a=0,t)){var d=self.performance.memory;t.update(d.usedJSHeapSize/1048576,d.jsHeapSizeLimit/1048576)}return c},update:function(){g=this.end()},domElement:c,setMode:k}};
+Stats.Panel=function(h,k,l){var c=Infinity,g=0,e=Math.round,a=e(window.devicePixelRatio||1),r=80*a,f=48*a,t=3*a,u=2*a,d=3*a,m=15*a,n=74*a,p=30*a,q=document.createElement("canvas");q.width=r;q.height=f;q.style.cssText="width:80px;height:48px";var b=q.getContext("2d");b.font="bold "+9*a+"px Helvetica,Arial,sans-serif";b.textBaseline="top";b.fillStyle=l;b.fillRect(0,0,r,f);b.fillStyle=k;b.fillText(h,t,u);b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{dom:q,update:function(f,
+v){c=Math.min(c,f);g=Math.max(g,f);b.fillStyle=l;b.globalAlpha=1;b.fillRect(0,0,r,m);b.fillStyle=k;b.fillText(e(f)+" "+h+" ("+e(c)+"-"+e(g)+")",t,u);b.drawImage(q,d+a,m,n-a,p,d,m,n-a,p);b.fillRect(d+n-a,m,a,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d+n-a,m,a,e((1-f/v)*p))}}};"object"===typeof module&&(module.exports=Stats);
 
 },{}],2:[function(require,module,exports){
 'use strict';
@@ -200,7 +30,7 @@ var Game = function(canvas) {
 	this.frame_count = 0;
 };
 Game.prototype.IMAGES = {
-	boss:      'img/enemy.png',
+	boss:      'img/boss.jpg',
 	bullet:    'img/bullet.png',
 };
 Game.prototype.init = function() {
@@ -306,9 +136,18 @@ var BossObject = function(scene, game) {
 	this.game  = game;
 
 	this.frame_count = 0;
-	this.shot_theta = 90;
-
-	this.add_shot_theta = 15;
+	this.shot_theta1 = 0;
+	this.shot_theta2 = 0;
+	this.shot_theta3 = 60;
+	this.shot_theta4 = 60;
+	this.shot_theta5 = 120;
+	this.shot_theta6 = 120;
+	this.shot_theta7 = 180;
+	this.shot_theta8 = 180;
+	this.shot_theta9 = 240;
+	this.shot_theta10 = 240;
+	this.shot_theta11 = 300;
+	this.shot_theta12 = 300;
 
 	this.maru_shot_theta = 0;
 };
@@ -317,47 +156,155 @@ BossObject.prototype.image = function() {
 	return this.game.images.boss;
 };
 BossObject.prototype.image_width = function() {
-	return this.image().width * 0.1;
+	return this.image().width * 0.05;
 };
 BossObject.prototype.image_height = function() {
-	return this.image().height * 0.1;
+	return this.image().height * 0.05;
 };
 
-BossObject.prototype.uzumaki_shot = function() {
+BossObject.prototype.uzumaki_shot1 = function() {
 	var x  = this.game.width / 2;
 	var y = this.game.height / 2;
-	var theta = this.shot_theta;
-	var r = 1;
+	var theta = this.shot_theta1;
+	var r = 1.5;
 
-	this.scene.bulletmanager.create(x, y, r, theta, 9, 4);
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta1 += 10;
 };
-BossObject.prototype.maru_shot = function(speed) {
+BossObject.prototype.uzumaki_shot2 = function() {
+	var x  = this.game.width / 2;
+	var y = this.game.height / 2;
+	var theta = this.shot_theta2;
+	var r = 1.5;
+
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta2 -= 10;
+};
+BossObject.prototype.uzumaki_shot3 = function() {
+	var x  = this.game.width / 2;
+	var y = this.game.height / 2;
+	var theta = this.shot_theta3;
+	var r = 1.5;
+
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta3 += 10;
+};
+BossObject.prototype.uzumaki_shot4 = function() {
+	var x  = this.game.width / 2;
+	var y = this.game.height / 2;
+	var theta = this.shot_theta4;
+	var r = 1.5;
+
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta4 -= 10;
+};
+BossObject.prototype.uzumaki_shot5 = function() {
+	var x  = this.game.width / 2;
+	var y = this.game.height / 2;
+	var theta = this.shot_theta5;
+	var r = 1.5;
+
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta5 += 10;
+};
+BossObject.prototype.uzumaki_shot6 = function() {
+	var x  = this.game.width / 2;
+	var y = this.game.height / 2;
+	var theta = this.shot_theta6;
+	var r = 1.5;
+
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta6 -= 10;
+};
+BossObject.prototype.uzumaki_shot7 = function() {
+	var x  = this.game.width / 2;
+	var y = this.game.height / 2;
+	var theta = this.shot_theta7;
+	var r = 1.5;
+
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta7 += 10;
+};
+BossObject.prototype.uzumaki_shot8 = function() {
+	var x  = this.game.width / 2;
+	var y = this.game.height / 2;
+	var theta = this.shot_theta8;
+	var r = 1.5;
+
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta8 -= 10;
+};
+BossObject.prototype.uzumaki_shot9 = function() {
+	var x  = this.game.width / 2;
+	var y = this.game.height / 2;
+	var theta = this.shot_theta9;
+	var r = 1.5;
+
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta9 += 10;
+};
+BossObject.prototype.uzumaki_shot10 = function() {
+	var x  = this.game.width / 2;
+	var y = this.game.height / 2;
+	var theta = this.shot_theta10;
+	var r = 1.5;
+
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta10 -= 10;
+};
+BossObject.prototype.uzumaki_shot11 = function() {
+	var x  = this.game.width / 2;
+	var y = this.game.height / 2;
+	var theta = this.shot_theta3;
+	var r = 1.5;
+
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta11 += 10;
+};
+BossObject.prototype.uzumaki_shot12 = function() {
+	var x  = this.game.width / 2;
+	var y = this.game.height / 2;
+	var theta = this.shot_theta12;
+	var r = 1.5;
+
+	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+	this.shot_theta12 -= 10;
+};
+
+
+
+BossObject.prototype.maru_shot = function() {
 	var x  = this.game.width / 2;
 	var y = this.game.height / 2;
 	var theta = this.maru_shot_theta;
-	var r = speed;
+	var r = 2;
 
-	this.scene.bulletmanager.create(x, y, r, theta, 7, 3);
+	this.scene.bulletmanager.create(x, y, r, theta, 2, 4);
 };
 
 BossObject.prototype.run = function() {
 	// 渦巻き弾
-	if(this.frame_count % 25 === 0) {
-		this.shot_theta += this.add_shot_theta;
-		this.maru_shot_theta += this.add_shot_theta;
-	}
-	for (var i=0; i<2; i++) {
-		this.uzumaki_shot();
-		this.shot_theta += 3;
+	if(this.frame_count % 5 === 0) {
+		this.uzumaki_shot1();
+		this.uzumaki_shot2();
+		this.uzumaki_shot3();
+		this.uzumaki_shot4();
+		this.uzumaki_shot5();
+		this.uzumaki_shot6();
+		this.uzumaki_shot7();
+		this.uzumaki_shot8();
+		this.uzumaki_shot9();
+		this.uzumaki_shot10();
+		this.uzumaki_shot11();
+		this.uzumaki_shot12();
+
 	}
 
 	// 円形弾
-	if(this.frame_count % 50 === 0) {
-		for (i=0; i<18; i++) {
+	if(this.frame_count % 75 === 0) {
+		for (var i=0; i<36; i++) {
 			this.maru_shot(2);
-			this.maru_shot(2.5);
-			this.maru_shot(3);
-			this.maru_shot_theta += this.add_shot_theta;
+			this.maru_shot_theta += 10;
 		}
 	}
 
@@ -499,7 +446,7 @@ Scene.prototype.updateDisplay = function() {
 };
 Scene.prototype._showBackground = function() {
 	this.game.surface.save();
-	this.game.surface.fillStyle = "rgb(0, 0, 0)";
+	this.game.surface.fillStyle = "rgb(255, 255, 255)";
 	this.game.surface.fillRect(0, 0, this.game.width, this.game.height);
 	this.game.surface.restore();
 };

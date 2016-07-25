@@ -22,7 +22,7 @@ Scene.prototype.updateDisplay = function() {
 };
 Scene.prototype._showBackground = function() {
 	this.game.surface.save();
-	this.game.surface.fillStyle = "rgb(0, 0, 0)";
+	this.game.surface.fillStyle = "rgb(255, 255, 255)";
 	this.game.surface.fillRect(0, 0, this.game.width, this.game.height);
 	this.game.surface.restore();
 };
