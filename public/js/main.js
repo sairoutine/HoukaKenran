@@ -136,19 +136,8 @@ var BossObject = function(scene, game) {
 	this.game  = game;
 
 	this.frame_count = 0;
-	this.shot_theta1 = 0;
-	this.shot_theta2 = 0;
-	this.shot_theta3 = 60;
-	this.shot_theta4 = 60;
-	this.shot_theta5 = 120;
-	this.shot_theta6 = 120;
-	this.shot_theta7 = 180;
-	this.shot_theta8 = 180;
-	this.shot_theta9 = 240;
-	this.shot_theta10 = 240;
-	this.shot_theta11 = 300;
-	this.shot_theta12 = 300;
-
+	this.shot_thetas1 = [0, 60, 120, 180, 240, 300];
+	this.shot_thetas2 = [0, 60, 120, 180, 240, 300];
 	this.maru_shot_theta = 0;
 };
 
@@ -165,114 +154,27 @@ BossObject.prototype.image_height = function() {
 BossObject.prototype.uzumaki_shot1 = function() {
 	var x  = this.game.width / 2;
 	var y = this.game.height / 2;
-	var theta = this.shot_theta1;
 	var r = 1.5;
 
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta1 += 10;
+	for(var i = 0; i < this.shot_thetas1.length; i++ ) {
+		var theta = this.shot_thetas1[i];
+
+		this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+		this.shot_thetas1[i] += 10;
+	}
 };
 BossObject.prototype.uzumaki_shot2 = function() {
 	var x  = this.game.width / 2;
 	var y = this.game.height / 2;
-	var theta = this.shot_theta2;
 	var r = 1.5;
 
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta2 -= 10;
+	for(var i = 0; i < this.shot_thetas2.length; i++ ) {
+		var theta = this.shot_thetas2[i];
+
+		this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
+		this.shot_thetas2[i] -= 10;
+	}
 };
-BossObject.prototype.uzumaki_shot3 = function() {
-	var x  = this.game.width / 2;
-	var y = this.game.height / 2;
-	var theta = this.shot_theta3;
-	var r = 1.5;
-
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta3 += 10;
-};
-BossObject.prototype.uzumaki_shot4 = function() {
-	var x  = this.game.width / 2;
-	var y = this.game.height / 2;
-	var theta = this.shot_theta4;
-	var r = 1.5;
-
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta4 -= 10;
-};
-BossObject.prototype.uzumaki_shot5 = function() {
-	var x  = this.game.width / 2;
-	var y = this.game.height / 2;
-	var theta = this.shot_theta5;
-	var r = 1.5;
-
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta5 += 10;
-};
-BossObject.prototype.uzumaki_shot6 = function() {
-	var x  = this.game.width / 2;
-	var y = this.game.height / 2;
-	var theta = this.shot_theta6;
-	var r = 1.5;
-
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta6 -= 10;
-};
-BossObject.prototype.uzumaki_shot7 = function() {
-	var x  = this.game.width / 2;
-	var y = this.game.height / 2;
-	var theta = this.shot_theta7;
-	var r = 1.5;
-
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta7 += 10;
-};
-BossObject.prototype.uzumaki_shot8 = function() {
-	var x  = this.game.width / 2;
-	var y = this.game.height / 2;
-	var theta = this.shot_theta8;
-	var r = 1.5;
-
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta8 -= 10;
-};
-BossObject.prototype.uzumaki_shot9 = function() {
-	var x  = this.game.width / 2;
-	var y = this.game.height / 2;
-	var theta = this.shot_theta9;
-	var r = 1.5;
-
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta9 += 10;
-};
-BossObject.prototype.uzumaki_shot10 = function() {
-	var x  = this.game.width / 2;
-	var y = this.game.height / 2;
-	var theta = this.shot_theta10;
-	var r = 1.5;
-
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta10 -= 10;
-};
-BossObject.prototype.uzumaki_shot11 = function() {
-	var x  = this.game.width / 2;
-	var y = this.game.height / 2;
-	var theta = this.shot_theta3;
-	var r = 1.5;
-
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta11 += 10;
-};
-BossObject.prototype.uzumaki_shot12 = function() {
-	var x  = this.game.width / 2;
-	var y = this.game.height / 2;
-	var theta = this.shot_theta12;
-	var r = 1.5;
-
-	this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-	this.shot_theta12 -= 10;
-};
-
-
-
 BossObject.prototype.maru_shot = function() {
 	var x  = this.game.width / 2;
 	var y = this.game.height / 2;
@@ -287,17 +189,6 @@ BossObject.prototype.run = function() {
 	if(this.frame_count % 5 === 0) {
 		this.uzumaki_shot1();
 		this.uzumaki_shot2();
-		this.uzumaki_shot3();
-		this.uzumaki_shot4();
-		this.uzumaki_shot5();
-		this.uzumaki_shot6();
-		this.uzumaki_shot7();
-		this.uzumaki_shot8();
-		this.uzumaki_shot9();
-		this.uzumaki_shot10();
-		this.uzumaki_shot11();
-		this.uzumaki_shot12();
-
 	}
 
 	// 円形弾
