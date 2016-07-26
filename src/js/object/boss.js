@@ -8,6 +8,16 @@ var BossObject = function(scene, game) {
 	this.shot_thetas1 = [0, 60, 120, 180, 240, 300];
 	this.shot_thetas2 = [0, 60, 120, 180, 240, 300];
 	this.maru_shot_theta = 0;
+
+	this.r = 1.5;
+
+	this.create_gui();
+};
+
+BossObject.prototype.create_gui = function() {
+	var self = this;
+	var gui = new dat.GUI();
+	gui.add(self, 'r', 0, 10);
 };
 
 BossObject.prototype.image = function() {
@@ -23,7 +33,7 @@ BossObject.prototype.image_height = function() {
 BossObject.prototype.uzumaki_shot1 = function() {
 	var x  = this.game.width / 2;
 	var y = this.game.height / 2;
-	var r = 1.5;
+	var r = this.r;
 
 	for(var i = 0; i < this.shot_thetas1.length; i++ ) {
 		var theta = this.shot_thetas1[i];
@@ -35,7 +45,7 @@ BossObject.prototype.uzumaki_shot1 = function() {
 BossObject.prototype.uzumaki_shot2 = function() {
 	var x  = this.game.width / 2;
 	var y = this.game.height / 2;
-	var r = 1.5;
+	var r = this.r;
 
 	for(var i = 0; i < this.shot_thetas2.length; i++ ) {
 		var theta = this.shot_thetas2[i];
@@ -48,7 +58,7 @@ BossObject.prototype.maru_shot = function() {
 	var x  = this.game.width / 2;
 	var y = this.game.height / 2;
 	var theta = this.maru_shot_theta;
-	var r = 2;
+	var r = this.r;
 
 	this.scene.bulletmanager.create(x, y, r, theta, 2, 4);
 };
