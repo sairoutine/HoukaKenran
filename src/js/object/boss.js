@@ -1,3 +1,4 @@
+/* global dat */
 'use strict';
 
 var BossObject = function(scene, game) {
@@ -9,7 +10,12 @@ var BossObject = function(scene, game) {
 	this.shot_thetas2 = [0, 60, 120, 180, 240, 300];
 	this.maru_shot_theta = 0;
 
+	// config
+	this.add_shot_theta = 5;
 	this.r = 1.5;
+	this.uzumaki_percount = 5;
+	this.maru_percount    = 75;
+	this.maru_shot_pertheta = 10;
 
 	this.create_gui();
 };
@@ -18,6 +24,10 @@ BossObject.prototype.create_gui = function() {
 	var self = this;
 	var gui = new dat.GUI();
 	gui.add(self, 'r', 0, 10);
+	gui.add(self, 'add_shot_theta', 0, 10);
+	gui.add(self, 'uzumaki_percount', 0, 50).step(1);
+	gui.add(self, 'maru_percount', 0, 100).step(1);
+	gui.add(self, 'maru_shot_pertheta', 1, 30).step(1);
 };
 
 BossObject.prototype.image = function() {
@@ -39,7 +49,7 @@ BossObject.prototype.uzumaki_shot1 = function() {
 		var theta = this.shot_thetas1[i];
 
 		this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-		this.shot_thetas1[i] += 10;
+		this.shot_thetas1[i] += this.add_shot_theta;
 	}
 };
 BossObject.prototype.uzumaki_shot2 = function() {
@@ -51,7 +61,7 @@ BossObject.prototype.uzumaki_shot2 = function() {
 		var theta = this.shot_thetas2[i];
 
 		this.scene.bulletmanager.create(x, y, r, theta, 13, 4);
-		this.shot_thetas2[i] -= 10;
+		this.shot_thetas2[i] -= this.add_shot_theta;
 	}
 };
 BossObject.prototype.maru_shot = function() {
@@ -65,16 +75,16 @@ BossObject.prototype.maru_shot = function() {
 
 BossObject.prototype.run = function() {
 	// 渦巻き弾
-	if(this.frame_count % 5 === 0) {
+	if(this.frame_count % this.uzumaki_percount === 0) {
 		this.uzumaki_shot1();
 		this.uzumaki_shot2();
 	}
 
 	// 円形弾
-	if(this.frame_count % 75 === 0) {
-		for (var i=0; i<36; i++) {
-			this.maru_shot(2);
-			this.maru_shot_theta += 10;
+	if(this.frame_count % this.maru_percount === 0) {
+		for (var i=0; i< 360 / this.maru_shot_pertheta; i++) {
+			this.maru_shot();
+			this.maru_shot_theta += this.maru_shot_pertheta;
 		}
 	}
 
